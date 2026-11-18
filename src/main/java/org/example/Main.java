@@ -130,7 +130,7 @@ public class Main extends JFrame {
         formulaPane.setEditable(false);
         formulaPane.setBackground(new Color(245, 245, 245));
         JScrollPane formulaScroll = new JScrollPane(formulaPane);
-        formulaScroll.setBorder(BorderFactory.createTitledBorder("Формула интерполяционного полинома (точка)"));
+        formulaScroll.setBorder(BorderFactory.createTitledBorder("Формула интерполяционного полинома (динамическая)"));
         formulaScroll.setPreferredSize(new Dimension(1400, 120));
         add(formulaScroll, BorderLayout.SOUTH);
 
@@ -266,6 +266,14 @@ public class Main extends JFrame {
         }
 
         chart.getXYPlot().setBackgroundPaint(Color.WHITE);
+
+        double maxY = 0;
+        for (double val : DEFAULT_Y) if (val > maxY) maxY = val;
+        for (double val : currentY) if (val > maxY) maxY = val;
+
+        chart.getXYPlot().getDomainAxis().setRange(0, X[n - 1] + 0.5);
+        chart.getXYPlot().getRangeAxis().setRange(0, maxY * 1.1);
+
         chartPanel.setChart(chart);
 
         updateFormula();
