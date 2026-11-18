@@ -13,9 +13,9 @@ import java.awt.*;
 
 public class Main extends JFrame {
 
-    // Исходные данные X (фиксированные)
+    // Исходные данные X 
     static final double[] X = {4.415, 4.420, 4.425, 4.430, 4.435, 4.440, 4.445, 4.450, 4.455, 4.460, 4.465};
-    // Исходные данные Y (по умолчанию)
+    // Исходные данные Y
     static final double[] DEFAULT_Y = {0.888551, 0.889599, 0.890637, 0.891667, 0.892687, 0.893698, 0.894700, 0.895693, 0.896677, 0.897653, 0.898119};
 
     JTextField inputX;
@@ -31,13 +31,10 @@ public class Main extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
-        // ==========================================
-        // 1. ВЕРХНЯЯ ПАНЕЛЬ (Формулы)
-        // ==========================================
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Вывод ДВУХ формул
+        // Вывод формул
         String formulaHtml = "<html><body style='font-family: Arial; font-size: 14px;'>" +
                 "<h3>Метод Эйткена (итерационная интерполяция)</h3>" +
                 "<p style='margin-bottom: 2px;'><b>1. Базовая линейная интерполяция:</b><br>" +
@@ -48,9 +45,6 @@ public class Main extends JFrame {
         topPanel.add(new JLabel(formulaHtml), BorderLayout.WEST);
         add(topPanel, BorderLayout.NORTH);
 
-        // ==========================================
-        // 2. ЛЕВАЯ ПАНЕЛЬ (Ввод X, кнопка и таблица Y)
-        // ==========================================
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         leftPanel.setBorder(BorderFactory.createTitledBorder("Управление и данные Y"));
@@ -97,9 +91,6 @@ public class Main extends JFrame {
 
         add(leftPanel, BorderLayout.WEST);
 
-        // ==========================================
-        // 3. ЦЕНТРАЛЬНАЯ ПАНЕЛЬ (Таблица результатов и График)
-        // ==========================================
         table = new JTable();
         JScrollPane tableScroll = new JScrollPane(table);
         tableScroll.setBorder(BorderFactory.createTitledBorder("Схема Эйткена"));
@@ -107,12 +98,10 @@ public class Main extends JFrame {
         chartPanel = new ChartPanel(null);
         chartPanel.setBorder(BorderFactory.createTitledBorder("График интерполяции"));
 
-        // Разделитель по центру
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tableScroll, chartPanel);
         splitPane.setResizeWeight(0.5);
         add(splitPane, BorderLayout.CENTER);
 
-        // --- Слушатели ---
         calcBtn.addActionListener(e -> {
             try {
                 double x = Double.parseDouble(inputX.getText().replace(',', '.'));
@@ -131,9 +120,6 @@ public class Main extends JFrame {
         calculateAndDraw(4.4175, DEFAULT_Y);
     }
 
-    /**
-     * Расчет методом Эйткена и отрисовка
-     */
     private void calculateAndDraw(double x, double[] Y) {
         int n = X.length;
         double[][] P = new double[n][n];
@@ -176,7 +162,7 @@ public class Main extends JFrame {
             table.getColumnModel().getColumn(i).setPreferredWidth(60);
         }
 
-        // --- Отрисовка графика ---
+        // Отрисовка графика 
         XYSeries pointsSeries = new XYSeries("Табличные точки");
         for (int i = 0; i < n; i++) {
             pointsSeries.add(X[i], Y[i]);
